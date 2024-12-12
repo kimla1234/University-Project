@@ -1,4 +1,5 @@
 import { Share2, ArrowUp } from "lucide-react";
+import Image from "next/image";
 
 export default function Feedback() {
   return (
@@ -6,7 +7,7 @@ export default function Feedback() {
       <div className=" flex lg:w-[80%] md:w-[97%] w-[90%]  ">
         {/* Left side illustration */}
         <div className="w-full md:w-1/2  hidden lg:block md:block ">
-          <img
+          <Image
             src="../../assets/feedbaack.jpg"
             alt="Feedback illustration"
             width={40}

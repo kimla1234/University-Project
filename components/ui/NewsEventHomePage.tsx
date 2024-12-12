@@ -1,6 +1,6 @@
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+
 
 const blogPosts = [
   {
@@ -60,7 +60,7 @@ export default function NewsEventHomePage() {
               key={post.id}
               className="relative h-[350px] isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 dark:bg-gray-700 px-4 py-8 pb-4 pt-80 sm:pt-48 lg:pt-80 hover:scale-105"
             >
-              <img
+              <Image
                 src={post.image}
                 alt={post.title}
                 className="absolute inset-0 -z-10 h-full w-full object-cover"

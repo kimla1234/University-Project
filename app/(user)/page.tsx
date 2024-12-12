@@ -1,10 +1,10 @@
 import CardUniversity from "@//components/ui/CardUniversity";
 import Image from "next/image";
 import Link from "next/link";
-import { GoArrowRight } from "react-icons/go";
+
 import { BiRightArrowAlt } from "react-icons/bi";
 import TeamProfilesHomePage from "@//components/ui/TeamProfilesHomePaage";
-import ProcessHomePage from "@//components/ui/ProcessHomePage";
+
 import NewsEventHomePage from "@/components/ui/NewsEventHomePage";
 import About_us_homepage from "@/components/ui/About_us_homepage";
 import Feedback from "@/components/ui/Feedback";

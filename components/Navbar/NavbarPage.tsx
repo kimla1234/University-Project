@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";// Correct usage of Link from react-
 import { Menu, X } from "lucide-react"; // For hamburger menu icon
 import { FaRegBell } from "react-icons/fa"; // For notification icon
 import Link from "next/link";
+import Image from "next/image";
 
 // Navigation Links
 const navLinks = [
@@ -51,7 +52,7 @@ export default function NavbarPage() {
             </Link>
           ) : (
             <div>
-              <img
+              <Image
                 src="/logo.png"
                 alt="Logo"
                 width={30}
