@@ -1,40 +1,57 @@
-"use client";
-import React, { useState } from "react";
-import Image from "next/image";
+"use client"
+import { useState, useEffect } from "react";// Correct usage of Link from react-router-dom
+import { Menu, X } from "lucide-react"; // For hamburger menu icon
+import { FaRegBell } from "react-icons/fa"; // For notification icon
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
 
+// Navigation Links
 const navLinks = [
   { href: "/", label: "ទំព័រដើម" },
-  { href: "/test", label: "តេស្ត" },
-  { href: "/university", label: "គ្រឹស្ថានសិក្សា" },
+  { href: "/university", label: "សាកល" },
   { href: "/jobs", label: "ការងារ" },
-  { href: "/privacy-policy", label: "ឯកជនភាព" },
+  { href: "/new", label: "ព័ត៌មាន" },
   { href: "/about-us", label: "អំពីយើង" },
 ];
 
 export default function NavbarPage() {
-  const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [userUUID] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // For toggling mobile menu
+  const [userUUID] = useState(""); // Replace with actual state if needed for user data
+  const pathname = window.location.pathname; // To check the current page path for styling
+
+  const [isSticky, setIsSticky] = useState(false);
+
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsSticky(true);
+    } else {
+      setIsSticky(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div className="w-full bg-slate-50">
-      <header className="flex items-center justify-between py-4 px-4 md:px-6 lg:px-8  mx-auto">
+      <header
+        className={`flex items-center justify-between py-4 px-4 md:px-6 lg:px-6 mx-auto w-full fixed top-0 left-0 z-50 bg-white shadow-md transition-all duration-300 ${
+          isSticky ? "bg-opacity-90" : "bg-opacity-100"
+        }`}
+      >
         {/* Logo and Navigation Links */}
         <div className="flex items-center space-x-6 lg:space-x-8">
           {/* Logo */}
           {userUUID === "" ? (
-            <Link
-              href="/"
-              className="text-lg lg:text-xl text-green-700 font-bold"
-            >
-              Logo
+            <Link href="/" className="text-lg lg:text-xl text-green-700">
+              សាកលវិទ្យាល័យ
             </Link>
           ) : (
             <div>
-              <Image
+              <img
                 src="/logo.png"
                 alt="Logo"
                 width={30}
@@ -43,36 +60,43 @@ export default function NavbarPage() {
               />
             </div>
           )}
-
-          {/* Navigation Links */}
-          <nav className="hidden md:flex space-x-6 lg:space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-base lg:text-lg ${
-                  pathname === link.href
-                    ? "text-green-700 font-bold  border-green-700"
-                    : "text-gray-800 hover:text-green-700"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
         </div>
 
-        {/* Language Selector and Sign-in */}
+        {/* Navigation Links and Sign-In Button */}
         <div className="hidden md:block lg:flex items-center space-x-6">
-          {/* LanguageSelector hidden on md (iPad) */}
-          <LanguageSelector />
-          {/* Sign in button */}
-          <Link
-            href="/login"
-            className="bg-emerald-500 text-white text-base lg:text-lg rounded-xl px-5 py-2"
-          >
-            Sign in
-          </Link>
+          <div className="flex justify-end items-center">
+            {/* Navigation Links */}
+            <nav className="hidden md:flex w-[350px] space-x-6 md:space-x-0 lg:space-x-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href} // Corrected: using 'to' instead of 'href'
+                  className={`text-base md:text-md w-[70px] lg:text-lg whitespace-nowrap space-x-4  ${
+                    pathname === link.href
+                      ? "text-green-600 font-medium"
+                      : "text-gray-800 hover:text-green-600"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Sign-In Button */}
+            <div className="flex space-x-4 lg:w-full md:w-[200px] justify-end">
+              <div className="w-[120px] flex justify-end items-center space-x-4">
+                <div className="rounded-full border border-primary">
+                  <FaRegBell className="text-xl mr-2 ml-2 mt-2 mb-2" />
+                </div>
+              </div>
+              <Link
+                href="/login" // Corrected: using 'to' instead of 'href'
+                className="bg-emerald-500 text-white text-base text-center lg:text-lg rounded-xl lg:px-5 lg:py-2 md:px-2 md:py-1 px-5 py-2 lg:w-28 md:w-32 w-32"
+              >
+                ចុះឈ្មោះ
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Hamburger Menu Button */}
@@ -86,12 +110,14 @@ export default function NavbarPage() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="w-full md:hidden px-4 py-4">
+        <div
+          className="w-full md:hidden fixed left-0 right-0 lg:mt-14 md:mt-14 -mt-8 px-4 py-4 bg-white shadow-md z-50"
+        >
           <nav className="flex flex-col space-y-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={link.href} // Corrected: using 'to' instead of 'href'
                 className={`text-base ${
                   pathname === link.href
                     ? "text-green-700 font-bold"
@@ -103,13 +129,17 @@ export default function NavbarPage() {
               </Link>
             ))}
           </nav>
-          <div className="mt-4 flex items-center justify-between">
-            <LanguageSelector />
+          <div className="flex space-x-4 justify-end">
+            <div className="w-[120px] flex justify-end items-center space-x-4">
+              <div className="rounded-full border border-primary">
+                <FaRegBell className="text-xl mr-2 ml-2 mt-2 mb-2" />
+              </div>
+            </div>
             <Link
-              href="/login"
-              className="bg-emerald-500 text-white text-base rounded-xl px-4 py-2"
+              href="/login" // Corrected: using 'to' instead of 'href'
+              className="bg-emerald-500 text-white text-base lg:text-lg rounded-xl lg:px-5 lg:py-2 md:px-4 md:py-1 px-5 py-2"
             >
-              Sign in
+              ចុះឈ្មោះ
             </Link>
           </div>
         </div>
@@ -117,305 +147,3 @@ export default function NavbarPage() {
     </div>
   );
 }
-
-function LanguageSelector() {
-  return (
-    <div className="flex md:hidden lg:flex items-center space-x-4">
-      <LanguageOption flag="/assets/khmer-flag.png" label="Khmer" />
-      <div className="h-6 border-l border-slate-400"></div>
-      <LanguageOption flag="/assets/english-flag.png" label="English" />
-    </div>
-  );
-}
-
-function LanguageOption({ flag, label }: { flag: string; label: string }) {
-  return (
-    <div className="flex items-center space-x-2">
-      <Image
-        src={flag}
-        alt={`${label} flag`}
-        width={24}
-        height={24}
-        className="w-6 h-6 object-cover rounded-full"
-      />
-      <span className="text-base lg:text-lg text-gray-800">{label}</span>
-    </div>
-  );
-}
-
-
-// "use client";
-// import React, { useState } from "react";
-// import Image from "next/image";
-// import Link from "next/link";
-// import { usePathname } from "next/navigation";
-// import { Menu, X } from "lucide-react";
-// import { useGetUserQuery } from "@/redux/service/user"; // Import the user API
-
-// const navLinks = [
-//   { href: "/", label: "Home" },
-//   { href: "/test", label: "Test" },
-//   { href: "/university", label: "University" },
-//   { href: "/jobs", label: "Jobs" },
-//   { href: "/policy", label: "Policy" },
-//   { href: "/about-us", label: "About us" },
-// ];
-
-// export default function NavbarPage() {
-//   const pathname = usePathname();
-//   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-//   // Fetch user data
-//   const { data: user} = useGetUserQuery();
-
-//   return (
-//     <div className="w-full bg-slate-50">
-//       <header className="flex items-center justify-between py-4 px-4 md:px-6 lg:px-8 mx-auto">
-//         {/* Logo and Navigation Links */}
-//         <div className="flex items-center space-x-6 lg:space-x-8">
-//           {/* Logo */}
-//           <Link href="/" className="text-lg lg:text-xl text-green-700 font-bold">
-//             Logo
-//           </Link>
-
-//           {/* Navigation Links */}
-//           <nav className="hidden md:flex space-x-6 lg:space-x-8">
-//             {navLinks.map((link) => (
-//               <Link
-//                 key={link.href}
-//                 href={link.href}
-//                 className={`text-base lg:text-lg ${
-//                   pathname === link.href
-//                     ? "text-green-700 font-bold border-green-700"
-//                     : "text-gray-800 hover:text-green-700"
-//                 }`}
-//               >
-//                 {link.label}
-//               </Link>
-//             ))}
-//           </nav>
-//         </div>
-
-//         {/* Profile or Sign-in */}
-//         <div className="hidden md:block lg:flex items-center space-x-6">
-//           {isLoading ? (
-//             <p>Loading...</p> // Optionally show a loading state
-//           ) : error ? (
-//             <Link
-//               href="/login"
-//               className="bg-emerald-500 text-white text-base lg:text-lg rounded-xl px-5 py-2"
-//             >
-//               Sign in
-//             </Link>
-//           ) : user ? (
-//             <div className="flex items-center space-x-4">
-//               <Image
-//                 src={user.avatar || "/default-avatar.png"} // Fallback to default avatar if null
-//                 alt="User Avatar"
-//                 width={40}
-//                 height={40}
-//                 className="w-10 h-10 object-cover rounded-full"
-//               />
-//               <p className="text-gray-800">{user.username}</p>
-//             </div>
-//           ) : (
-//             <Link
-//               href="/login"
-//               className="bg-emerald-500 text-white text-base lg:text-lg rounded-xl px-5 py-2"
-//             >
-//               Sign in
-//             </Link>
-//           )}
-//         </div>
-
-//         {/* Hamburger Menu Button */}
-//         <button
-//           className="md:hidden"
-//           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-//         >
-//           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-//         </button>
-//       </header>
-
-//       {/* Mobile Menu */}
-//       {mobileMenuOpen && (
-//         <div className="w-full md:hidden px-4 py-4">
-//           <nav className="flex flex-col space-y-4">
-//             {navLinks.map((link) => (
-//               <Link
-//                 key={link.href}
-//                 href={link.href}
-//                 className={`text-base ${
-//                   pathname === link.href
-//                     ? "text-green-700 font-bold"
-//                     : "text-gray-800 hover:text-green-700"
-//                 }`}
-//                 onClick={() => setMobileMenuOpen(false)}
-//               >
-//                 {link.label}
-//               </Link>
-//             ))}
-//           </nav>
-//           <div className="mt-4 flex items-center justify-between">
-//             {isLoading ? (
-//               <p>Loading...</p>
-//             ) : user ? (
-//               <div className="flex items-center space-x-4">
-//                 <Image
-//                   src={user.avatar || "/default-avatar.png"}
-//                   alt="User Avatar"
-//                   width={40}
-//                   height={40}
-//                   className="w-10 h-10 object-cover rounded-full"
-//                 />
-//                 <p className="text-gray-800">{user.username}</p>
-//               </div>
-//             ) : (
-//               <Link
-//                 href="/login"
-//                 className="bg-emerald-500 text-white text-base rounded-xl px-4 py-2"
-//               >
-//                 Sign in
-//               </Link>
-//             )}
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-
-// "use client";
-// import React, { useState } from "react";
-// import Image from "next/image";
-// import Link from "next/link";
-// import { usePathname } from "next/navigation";
-// import { Menu, X } from "lucide-react";
-// import { useGetUserQuery } from "@/redux/service/user"; // Import the user API
-
-// const navLinks = [
-//   { href: "/", label: "Home" },
-//   { href: "/test", label: "Test" },
-//   { href: "/university", label: "University" },
-//   { href: "/jobs", label: "Jobs" },
-//   { href: "/policy", label: "Policy" },
-//   { href: "/about-us", label: "About us" },
-// ];
-
-// export default function NavbarPage() {
-//   const pathname = usePathname();
-//   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-//   // Fetch user data
-//   const { data:user, error } = useGetUserQuery(undefined, {
-//     skip: typeof window === "undefined", // Skip fetching on server-side
-//   });
-//   console.log("user data",user)
-//   console.log("User name"+ user?.payload?.username)
-
-//   return (
-//     <div className="w-full bg-slate-50">
-//       <header className="flex items-center justify-between py-4 px-4 md:px-6 lg:px-8 mx-auto">
-//         {/* Logo and Navigation Links */}
-//         <div className="flex items-center space-x-6 lg:space-x-8">
-//           {/* Logo */}
-//           <Link href="/" className="text-lg lg:text-xl text-green-700 font-bold">
-//             Logo
-//           </Link>
-
-//           {/* Navigation Links */}
-//           <nav className="hidden md:flex space-x-6 lg:space-x-8">
-//             {navLinks.map((link) => (
-//               <Link
-//                 key={link.href}
-//                 href={link.href}
-//                 className={`text-base lg:text-lg ${
-//                   pathname === link.href
-//                     ? "text-green-700 font-bold border-green-700"
-//                     : "text-gray-800 hover:text-green-700"
-//                 }`}
-//               >
-//                 {link.label}
-//               </Link>
-//             ))}
-//           </nav>
-//         </div>
-
-//         {/* Profile or Sign-in */}
-//         <div className="hidden md:block lg:flex items-center space-x-6">
-//           {user ? (
-//             <div className="flex items-center space-x-4">
-//               <Image
-//                 src={user?.payload.avatar || "/default-avatar.png"} // Fallback to default avatar if null
-//                 alt="User Avatar"
-//                 width={40}
-//                 height={40}
-//                 className="w-10 h-10 object-cover rounded-full"
-//               />
-//               <p className="text-gray-800">{user.payload.username}</p>
-//             </div>
-//           ) : (
-//             <Link
-//               href="/login"
-//               className="bg-emerald-500 text-white text-base lg:text-lg rounded-xl px-5 py-2"
-//             >
-//               Sign in
-//             </Link>
-//           )}
-//         </div>
-
-//         {/* Hamburger Menu Button */}
-//         <button
-//           className="md:hidden"
-//           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-//         >
-//           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-//         </button>
-//       </header>
-
-//       {/* Mobile Menu */}
-//       {mobileMenuOpen && (
-//         <div className="w-full md:hidden px-4 py-4">
-//           <nav className="flex flex-col space-y-4">
-//             {navLinks.map((link) => (
-//               <Link
-//                 key={link.href}
-//                 href={link.href}
-//                 className={`text-base ${
-//                   pathname === link.href
-//                     ? "text-green-700 font-bold"
-//                     : "text-gray-800 hover:text-green-700"
-//                 }`}
-//                 onClick={() => setMobileMenuOpen(false)}
-//               >
-//                 {link.label}
-//               </Link>
-//             ))}
-//           </nav>
-//           <div className="mt-4 flex items-center justify-between">
-//             {user ? (
-//               <div className="flex items-center space-x-4">
-//                 <Image
-//                   src={user?.payload.avatar || "/default-avatar.png"}
-//                   alt="User Avatar"
-//                   width={40}
-//                   height={40}
-//                   className="w-10 h-10 object-cover rounded-full"
-//                 />
-//                 <p className="text-gray-800">{user?.payload?.username}</p>
-//               </div>
-//             ) : (
-//               <Link
-//                 href="/login"
-//                 className="bg-emerald-500 text-white text-base rounded-xl px-4 py-2"
-//               >
-//                 Sign in
-//               </Link>
-//             )}
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }

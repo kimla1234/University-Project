@@ -12,7 +12,7 @@ type props = {
 export const JobMainContainer = ({ highlight, title, desc }: props) => {
     return (
         
-        <div className="relative w-ful h-[600px] bg-cover bg-center" style={{ backgroundImage: `url(${cover.src})` }}>
+        <div className="relative w-ful h-[600px] mt-20 bg-cover bg-center" style={{ backgroundImage: `url(${cover.src})` }}>
             <div className='max-w-7xl mx-auto py-4 md:py-6 px-2 md:px-4 relative z-10'>
                 {/* Content section */}
                 <div className='text-center'>

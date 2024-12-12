@@ -125,6 +125,12 @@ export default function Page() {
               </a>
               <a
                 href="#"
+                className="mx-1 rounded-full px-3 py-2 bg-gray-200 text-gray-700  hover:bg-blue-500 hover:text-gray-200 "
+              >
+                2
+              </a>
+              <a
+                href="#"
                 className="mx-1 px-3 py-2 rounded-xl bg-gray-200 text-gray-700 font-medium hover:bg-blue-500 hover:text-gray-200 "
               >
                 បន្ទាប់
