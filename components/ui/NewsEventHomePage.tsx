@@ -47,6 +47,28 @@ const blogPosts = [
     authorImg:"/assets/new/new-02.png",
     link: "/tech-blog/post3",
   },
+  {
+    id: "4",
+    title: "ឱកាសអាហារូបករណ៍​សិក្សាថ្នាក់បរិញ្ញាបត្រនៅសាកលវិទ្យាល័យជាតិគ្រប់គ្រង",
+    desc: "Future AI Labs",
+    image:
+      "/assets/new/new-03.png",
+    date: "October 17, 2024",
+    author: "Sokunpanha Chann",
+    authorImg:"/assets/new/new-02.png",
+    link: "/tech-blog/post3",
+  },
+  {
+    id: "4",
+    title: "ឱកាសអាហារូបករណ៍​សិក្សាថ្នាក់បរិញ្ញាបត្រនៅសាកលវិទ្យាល័យជាតិគ្រប់គ្រង",
+    desc: "Future AI Labs",
+    image:
+      "/assets/new/new-03.png",
+    date: "October 17, 2024",
+    author: "Sokunpanha Chann",
+    authorImg:"/assets/new/new-02.png",
+    link: "/tech-blog/post3",
+  },
   // Add more blog posts here...
 ];
 
@@ -63,6 +85,8 @@ export default function NewsEventHomePage() {
               <Image
                 src={post.image}
                 alt={post.title}
+                width={200}
+                height={200}
                 className="absolute inset-0 -z-10 h-full w-full object-cover"
               />
               <div className="absolute inset-0 -z-10 bg-gradient-to-t from-gray-800 via-gray-900/40"></div>

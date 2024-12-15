@@ -8,10 +8,10 @@ export default function Feedback() {
         {/* Left side illustration */}
         <div className="w-full md:w-1/2  hidden lg:block md:block ">
           <Image
-            src="../../assets/feedbaack.jpg"
+            src="/assets/feedbaack.jpg"
             alt="Feedback illustration"
-            width={40}
-            height={40}
+            width={200}
+            height={200}
             className="w-[400px] h-[350px]"
           />
         </div>

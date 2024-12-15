@@ -16,7 +16,7 @@ const navLinks = [
 
 export default function NavbarPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // For toggling mobile menu
-  const [userUUID] = useState(""); // Replace with actual state if needed for user data
+
   const pathname = window.location.pathname; // To check the current page path for styling
 
   const [isSticky, setIsSticky] = useState(false);
@@ -45,22 +45,11 @@ export default function NavbarPage() {
       >
         {/* Logo and Navigation Links */}
         <div className="flex items-center space-x-6 lg:space-x-8">
-          {/* Logo */}
-          {userUUID === "" ? (
+         
             <Link href="/" className="text-lg lg:text-xl text-green-700">
               សាកលវិទ្យាល័យ
             </Link>
-          ) : (
-            <div>
-              <Image
-                src="/logo.png"
-                alt="Logo"
-                width={30}
-                height={30}
-                className="object-contain"
-              />
-            </div>
-          )}
+
         </div>
 
         {/* Navigation Links and Sign-In Button */}
